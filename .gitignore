@@ -1,0 +1,9 @@
+# Dependencies & build output
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.DS_Store
+
+# Raw reference / screen recording videos in root
+/*.mp4

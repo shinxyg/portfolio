@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #060907;
+  }
+
+  html {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: #000000;
+    color: #ffffff;
+    overflow-x: hidden;
+  }
+}
+
+/* Lenis smooth scroll recommended CSS */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Moody studio portrait styling matching the video */
+.moody-portrait {
+  filter: grayscale(100%) contrast(1.25) brightness(0.82);
+}
+
+/* Subtle dark green ambient vignette from the video */
+.video-ambient-bg {
+  background:
+    radial-gradient(circle at 50% 100%, rgba(10, 46, 26, 0.35) 0%, rgba(0, 0, 0, 0) 65%),
+    radial-gradient(circle at 85% 20%, rgba(8, 36, 20, 0.22) 0%, rgba(0, 0, 0, 0) 55%),
+    #000000;
+}
+
+/* Subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #525252;
+}
