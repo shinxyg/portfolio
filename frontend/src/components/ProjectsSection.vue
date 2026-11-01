@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
+import { ref, reactive, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ChevronLeft, ChevronRight, ArrowUpRight, X, Code2, Layers, Zap } from 'lucide-vue-next'
@@ -37,7 +37,23 @@ function setTab(projectId, tabName) {
   activeTab[projectId] = tabName
 }
 
-function rotateCarousel(dir) {
+const cardsRowRef = ref(null)
+let isRotating = false
+
+// Arrow click: cards glide from their old slot to the new slot (GSAP FLIP)
+async function rotateCarousel(dir) {
+  if (isRotating) return
+  isRotating = true
+
+  const row = cardsRowRef.value
+  const before = {}
+  if (row) {
+    row.querySelectorAll('[data-card]').forEach((el) => {
+      const r = el.getBoundingClientRect()
+      before[el.dataset.card] = { left: r.left, width: r.width }
+    })
+  }
+
   const arr = [...currentOrder.value]
   if (dir > 0) {
     arr.push(arr.shift())
@@ -45,6 +61,72 @@ function rotateCarousel(dir) {
     arr.unshift(arr.pop())
   }
   currentOrder.value = arr
+
+  await nextTick()
+
+  if (!row || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    isRotating = false
+    return
+  }
+
+  const els = row.querySelectorAll('[data-card]')
+  els.forEach((el) => {
+    const prev = before[el.dataset.card]
+    const now = el.getBoundingClientRect()
+    let dx = dir > 0 ? 90 : -90
+    let startOpacity = 0
+    if (prev && prev.width > 0 && now.width > 0) {
+      dx = prev.left - now.left
+      // The card that wraps around from one end to the other fades in instead of flying across
+      if (Math.abs(dx) > now.width * 1.5) {
+        dx = dir > 0 ? 90 : -90
+      } else {
+        startOpacity = 1
+      }
+    }
+    gsap.fromTo(
+      el,
+      { x: dx, opacity: startOpacity, scale: startOpacity ? 1 : 0.92 },
+      {
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.55,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity',
+      }
+    )
+  })
+
+  gsap.delayedCall(0.55, () => {
+    isRotating = false
+  })
+}
+
+// Details panel <-> poster card: shrink + fade
+function onCardSwapLeave(el, done) {
+  gsap.to(el, {
+    opacity: 0,
+    scale: 0.92,
+    duration: 0.3,
+    ease: 'power2.in',
+    onComplete: done,
+  })
+}
+
+function onCardSwapEnter(el, done) {
+  gsap.fromTo(
+    el,
+    { opacity: 0, scale: 0.92 },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 0.4,
+      ease: 'power3.out',
+      clearProps: 'transform,opacity',
+      onComplete: done,
+    }
+  )
 }
 
 onMounted(() => {
@@ -131,7 +213,7 @@ onBeforeUnmount(() => {
   <section
     id="projects"
     ref="sectionRef"
-    class="relative w-full h-screen min-h-[700px] video-ambient-bg overflow-hidden flex items-center justify-center"
+    class="relative w-full h-screen min-h-175 video-ambient-bg overflow-hidden flex items-center justify-center"
   >
     <!--
       ========================================================================
@@ -146,7 +228,7 @@ onBeforeUnmount(() => {
         ref="popularLabelRef"
         class="text-xs sm:text-sm md:text-base font-normal uppercase tracking-[0.55em] text-zinc-400 mb-3"
       >
-        POPULAR
+        FEATURED
       </p>
 
       <div
@@ -179,14 +261,22 @@ onBeforeUnmount(() => {
 
         <!-- 3 Project Cards -->
         <div
+          ref="cardsRowRef"
           class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 w-full max-w-5xl items-center justify-items-center"
         >
           <div
             v-for="(projIndex, slotIdx) in currentOrder"
             :key="portfolioData.projects[projIndex].id"
-            class="w-full max-w-[320px] h-[350px] sm:h-[370px] rounded-2xl overflow-hidden border border-white/15 bg-[#0b0d0c] relative shadow-[0_24px_60px_rgba(0,0,0,0.85)] transition-transform duration-500"
+            :data-card="portfolioData.projects[projIndex].id"
+            class="w-full max-w-[320px] h-87.5 sm:h-92.5 rounded-2xl overflow-hidden border border-white/15 bg-[#0b0d0c] relative shadow-[0_24px_60px_rgba(0,0,0,0.85)]"
             :class="slotIdx !== 0 ? 'hidden md:block' : 'block'"
           >
+            <Transition
+              :css="false"
+              mode="out-in"
+              @leave="onCardSwapLeave"
+              @enter="onCardSwapEnter"
+            >
             <!-- ============================================================= -->
             <!-- STATE A: VISUAL POSTER CARD WITH "DETAILS ↗" PILL (00:28)     -->
             <!-- ============================================================= -->
@@ -197,16 +287,13 @@ onBeforeUnmount(() => {
               <!-- Card 1 Visual: Executive Corporate Portrait / Insurance Theme -->
               <div
                 v-if="portfolioData.projects[projIndex].visualType === 'executive'"
-                class="absolute inset-0 bg-gradient-to-b from-zinc-200 via-zinc-300 to-zinc-500 flex flex-col items-center justify-end overflow-hidden"
+                class="absolute inset-0 bg-[#0b0d0c] overflow-hidden"
               >
                 <img
-                  :src="portfolioData.personal.portraitUrl"
+                  :src="portfolioData.projects[projIndex].imageUrl || portfolioData.personal.portraitUrl"
                   :alt="portfolioData.projects[projIndex].title"
-                  class="w-full h-full object-cover object-top contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-700"
+                  class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent"
-                ></div>
                 <div class="absolute top-4 left-4">
                   <span
                     class="px-2.5 py-1 rounded bg-black/70 text-[9px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-sm"
@@ -248,12 +335,12 @@ onBeforeUnmount(() => {
                 <!-- Bold Distressed "FRIES LAB" Typography -->
                 <div class="text-center my-auto select-none group-hover:scale-105 transition-transform duration-500">
                   <div
-                    class="text-5xl font-black uppercase tracking-tight leading-[0.88] text-transparent bg-clip-text bg-gradient-to-b from-amber-400 via-orange-500 to-red-600 drop-shadow-[0_4px_20px_rgba(234,88,12,0.35)]"
+                    class="text-5xl font-black uppercase tracking-tight leading-[0.88] text-transparent bg-clip-text bg-linear-to-b from-amber-400 via-orange-500 to-red-600 drop-shadow-[0_4px_20px_rgba(234,88,12,0.35)]"
                   >
                     FRIES
                   </div>
                   <div
-                    class="text-5xl font-black uppercase tracking-tight leading-[0.88] text-transparent bg-clip-text bg-gradient-to-b from-orange-500 to-red-700"
+                    class="text-5xl font-black uppercase tracking-tight leading-[0.88] text-transparent bg-clip-text bg-linear-to-b from-orange-500 to-red-700"
                   >
                     LAB
                   </div>
@@ -265,7 +352,7 @@ onBeforeUnmount(() => {
               <!-- Card 3 Visual: Editorial Fashion / Lifestyle Storefront -->
               <div
                 v-else
-                class="absolute inset-0 bg-gradient-to-b from-[#d6d3cd] via-[#b8b4ac] to-[#78746d] flex flex-col justify-between p-6 overflow-hidden"
+                class="absolute inset-0 bg-linear-to-b from-[#d6d3cd] via-[#b8b4ac] to-[#78746d] flex flex-col justify-between p-6 overflow-hidden"
               >
                 <div class="flex justify-between items-start">
                   <span
@@ -286,7 +373,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div
-                  class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent"
+                  class="absolute inset-0 bg-linear-to-t from-black/65 via-transparent to-transparent"
                 ></div>
               </div>
 
@@ -308,7 +395,7 @@ onBeforeUnmount(() => {
             <!-- ============================================================= -->
             <div
               v-else
-              class="w-full h-full bg-[#0d110f] p-6 flex flex-col justify-between text-left animate-fadeIn"
+              class="w-full h-full bg-[#0d110f] p-6 flex flex-col justify-between text-left"
             >
               <div>
                 <!-- Header + Close Button -->
@@ -333,7 +420,7 @@ onBeforeUnmount(() => {
                     :key="tab"
                     type="button"
                     @click="setTab(portfolioData.projects[projIndex].id, tab)"
-                    class="text-[9px] font-semibold uppercase tracking-[0.22em] transition-colors cursor-pointer pb-1 -mb-[9px] border-b"
+                    class="text-[9px] font-semibold uppercase tracking-[0.22em] transition-colors cursor-pointer pb-1 -mb-2.25 border-b"
                     :class="
                       activeTab[portfolioData.projects[projIndex].id] === tab
                         ? 'text-white border-white'
@@ -345,7 +432,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- Tab Content -->
-                <div class="min-h-[115px]">
+                <div class="min-h-28.75">
                   <p
                     v-if="activeTab[portfolioData.projects[projIndex].id] === 'OVERVIEW'"
                     class="text-xs text-zinc-300 font-light leading-relaxed"
@@ -360,7 +447,7 @@ onBeforeUnmount(() => {
                     <span
                       v-for="t in portfolioData.projects[projIndex].tech"
                       :key="t"
-                      class="px-2.5 py-1 rounded-md bg-white/[0.06] border border-white/10 text-[10px] text-zinc-200"
+                      class="px-2.5 py-1 rounded-md bg-white/6 border border-white/10 text-[10px] text-zinc-200"
                     >
                       {{ t }}
                     </span>
@@ -385,9 +472,39 @@ onBeforeUnmount(() => {
                     :key="stat.label"
                     class="flex items-center gap-1.5 text-[10px] text-zinc-300"
                   >
-                    <Code2 v-if="stat.icon === 'code'" class="w-3 h-3 text-emerald-400" />
+                    <!-- Official Vue Logo -->
+                    <svg
+                      v-if="stat.icon === 'vue' || stat.label.toLowerCase().includes('vue')"
+                      viewBox="0 0 256 221"
+                      class="w-3.5 h-3.5 shrink-0"
+                    >
+                      <path fill="#41B883" d="M204.8 0H256L128 220.8 0 0h97.92L128 51.2 157.44 0h47.36Z" />
+                      <path fill="#35495E" d="M0 0l128 220.8L256 0h-51.2L128 132.48 50.56 0H0Z" />
+                    </svg>
+
+                    <!-- Official TypeScript Logo -->
+                    <svg
+                      v-else-if="stat.icon === 'typescript' || stat.label.toLowerCase().includes('typescript')"
+                      viewBox="0 0 128 128"
+                      class="w-3.5 h-3.5 shrink-0 rounded-xs overflow-hidden"
+                    >
+                      <rect width="128" height="128" fill="#3178c6" />
+                      <path fill="#fff" d="M38 46h52v12H68v46H52V58H38V46zm60 28c0-8 6-12 14-12 5 0 9 2 12 5l-6 8c-2-2-4-3-6-3-3 0-4 1-4 3 0 4 16 3 16 16 0 8-6 13-16 13-6 0-11-2-15-6l6-8c3 3 5 4 8 4 3 0 5-1 5-3 0-5-15-4-15-17z" />
+                    </svg>
+
+                    <!-- Official PostgreSQL Elephant Logo -->
+                    <img
+                      v-else-if="stat.icon === 'postgresql' || stat.label.toLowerCase().includes('postgres')"
+                      src="/icons/postgresql.png"
+                      alt="PostgreSQL"
+                      class="w-3.5 h-3.5 object-contain shrink-0"
+                    />
+
+                    <!-- Generic / Fallback Lucide Icons -->
+                    <Code2 v-else-if="stat.icon === 'code'" class="w-3 h-3 text-emerald-400" />
                     <Layers v-else-if="stat.icon === 'layers'" class="w-3 h-3 text-sky-400" />
                     <Zap v-else class="w-3 h-3 text-amber-400" />
+
                     <span>{{ stat.label }}</span>
                   </div>
                 </div>
@@ -396,12 +513,15 @@ onBeforeUnmount(() => {
               <!-- Full-Width Solid White "VISIT WEBSITE ↗" Button (matching 00:30 & 00:35) -->
               <a
                 :href="portfolioData.projects[projIndex].liveUrl"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="mt-4 w-full py-2.5 rounded-full bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-1.5 hover:bg-zinc-200 transition-colors"
               >
                 <span>VISIT WEBSITE</span>
                 <ArrowUpRight class="w-3.5 h-3.5 stroke-[2.5]" />
               </a>
             </div>
+            </Transition>
           </div>
         </div>
 

@@ -132,7 +132,7 @@ onBeforeUnmount(() => {
   <section
     id="services"
     ref="sectionRef"
-    class="relative w-full h-screen min-h-[680px] video-ambient-bg overflow-hidden flex items-center justify-center"
+    class="relative w-full h-screen min-h-170 video-ambient-bg overflow-hidden flex items-center justify-center"
   >
     <!-- Faint Geometric Diagonal Lines in Background (matching video 00:12 - 00:18) -->
     <svg
@@ -152,17 +152,17 @@ onBeforeUnmount(() => {
       class="absolute left-6 sm:left-12 lg:left-20 top-[28%] z-10 pointer-events-none select-none will-change-transform"
     >
       <p class="text-[9px] sm:text-[10px] font-medium uppercase tracking-[0.35em] text-zinc-500 mb-2">
-        WHAT I DO
+        CORE SKILLS
       </p>
       <h2
-        class="text-[clamp(4.2rem,11vw,9.5rem)] font-extrabold tracking-[-0.04em] leading-[0.88] text-white"
+        class="text-[clamp(3.2rem,8vw,7rem)] font-extrabold tracking-[-0.04em] leading-[0.88] text-white whitespace-nowrap"
       >
-        Services
+        Focus Areas
       </h2>
     </div>
 
     <!-- Center Stacking Deck of Square Dark Cards (00:12 -> 00:18) -->
-    <div class="relative z-20 w-[310px] sm:w-[370px] h-[340px] sm:h-[380px] flex items-center justify-center">
+    <div class="relative z-20 w-77.5 sm:w-92.5 h-85 sm:h-95 flex items-center justify-center">
       <article
         v-for="(service, idx) in portfolioData.services"
         :key="service.id"
@@ -186,7 +186,7 @@ onBeforeUnmount(() => {
             <button
               v-if="service.cta"
               type="button"
-              @click="emit('navigate', '#contact')"
+              @click="emit('navigate', '#skills')"
               class="px-4 py-2 rounded-full border border-white/25 bg-white/5 text-[9px] font-medium uppercase tracking-[0.22em] text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
             >
               {{ service.cta }}

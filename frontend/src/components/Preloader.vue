@@ -169,7 +169,7 @@ onMounted(() => {
       ref="progressContainerRef"
       class="relative z-10 mt-7 flex flex-col items-center w-44 sm:w-52"
     >
-      <div class="w-full h-[1px] bg-white/15 overflow-hidden">
+      <div class="w-full h-px bg-white/15 overflow-hidden">
         <div
           ref="progressBarRef"
           class="w-full h-full bg-white origin-left scale-x-0"

@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
     <div ref="timelineContainerRef" class="relative max-w-5xl mx-auto py-8">
       <!-- Vertical Center Track Line -->
       <div
-        class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-[1px] bg-white/15"
+        class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-white/15"
       >
         <!-- Filled Progress Line -->
         <div

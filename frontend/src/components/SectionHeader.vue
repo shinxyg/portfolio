@@ -88,7 +88,7 @@ onBeforeUnmount(() => {
       {{ title }}
     </h2>
 
-    <div class="mt-6 w-full h-[1px] bg-gradient-to-r from-white/20 via-white/5 to-transparent"></div>
+    <div class="mt-6 w-full h-px bg-gradient-to-r from-white/20 via-white/5 to-transparent"></div>
   </div>
 </template>
 

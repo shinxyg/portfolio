@@ -16,22 +16,22 @@ export const portfolioData = {
     shortName: 'Clarence M.',
 
     // CHANGE YOUR ROLE / SUBTITLE HERE:
-    title: 'Frontend Developer & UI/UX Engineer',
+    title: 'Aspiring Full-Stack Developer',
 
     // SHORT HERO DESCRIPTION:
     description:
-      'Crafting SEO-optimized, blazing-fast web experiences engineered with modern design architecture.',
+      'Fresh grad who loves turning ideas into pixel-perfect, interactive web experiences.',
 
     // CHANGE YOUR PORTRAIT PHOTO / HERO VIDEO HERE:
     // Place your video or image inside `frontend/public/` and update the paths below:
     heroVideoUrl: '/hero-video.mp4',
-    portraitUrl: '/portrait.jpg',
+    portraitUrl: '/images/portrait.jpg',
 
     // CHANGE YOUR CV DOWNLOAD FILE / LINK HERE:
     cvUrl: '#contact',
 
     location: 'Philippines',
-    email: 'clarencemillares.dev@gmail.com',
+    email: 'renmillares111@gmail.com',
   },
 
   // -------------------------------------------------------------------------
@@ -48,7 +48,7 @@ export const portfolioData = {
   // 3. NAVIGATION LINKS
   // -------------------------------------------------------------------------
   navLinks: [
-    { label: 'SERVICES', href: '#services' },
+    { label: 'FOCUS AREAS', href: '#services' },
     { label: 'EXPERIENCE', href: '#experience' },
     { label: 'PROJECTS', href: '#projects' },
     { label: 'SKILLS', href: '#skills' },
@@ -61,7 +61,7 @@ export const portfolioData = {
   socials: [
     { name: 'GitHub', icon: 'Github', url: 'https://github.com' },
     { name: 'LinkedIn', icon: 'Linkedin', url: 'https://linkedin.com' },
-    { name: 'Mail', icon: 'Mail', url: 'mailto:clarencemillares.dev@gmail.com' },
+    { name: 'Mail', icon: 'Mail', url: 'mailto:renmillares111@gmail.com' },
     { name: 'Link', icon: 'Link2', url: '#projects' },
   ],
 
@@ -71,38 +71,38 @@ export const portfolioData = {
   services: [
     {
       id: '01',
-      title: 'High-Performance Web Apps',
+      title: 'Responsive Web Apps',
       description:
-        'Blazing-fast, SEO-optimized websites built with modern tech like Vue.js, React, and Next.js. I create custom web solutions designed to rank higher and load instantly.',
+        'Building web apps with Vue.js and React. I focus on clean code, responsive layouts, and a smooth experience for users.',
       rotation: -2,
     },
     {
       id: '02',
-      title: 'Custom Restaurant Digital Menu',
+      title: 'Digital Menu Websites',
       description:
-        'Beyond templates. I build custom digital menus that reflect your restaurant’s unique brand identity, featuring rich animations and an integrated ordering system for direct customer engagement.',
+        'Simple, good-looking digital menus for restaurants and cafés, built to be easy to browse on any phone.',
       rotation: 4,
     },
     {
       id: '03',
-      title: 'Immersive E-Commerce',
+      title: 'E-Commerce Websites',
       description:
-        'Frictionless shopping experiences. I build dynamic online stores with smooth page transitions that make your products shine, engineered for high conversion rates and effortless checkout.',
+        'Online store pages with smooth navigation and a clean layout, built so shopping feels easy and simple.',
       rotation: -3,
     },
     {
       id: '04',
       title: 'UI/UX & Web Design',
       description:
-        'Clean, modern interfaces that actually make sense. I design digital experiences inside Figma that feel intuitive to navigate and keep users engaged.',
+        'Clean, modern interfaces designed in Figma. I focus on layouts that feel intuitive and easy to use.',
       rotation: 3,
     },
     {
       id: '05',
-      title: 'AI & Smart Automation',
+      title: 'Learning AI Tools',
       description:
-        'Experimenting with cutting-edge AI integrations to build smarter web features and automate repetitive workflows for modern businesses.',
-      cta: 'BOOK A FREE CALL',
+        'Exploring AI tools to add smart features to websites and automate small, repetitive tasks.',
+      cta: 'VIEW MY TOOLS',
       rotation: 0,
     },
   ],
@@ -113,43 +113,43 @@ export const portfolioData = {
   experience: [
     {
       side: 'left',
-      period: '2025 — PRESENT',
-      role: 'Freelance Frontend Developer & UI/UX Designer',
-      company: 'SELF-EMPLOYED',
+      period: '',
+      role: 'Aspiring Full-Stack Developer',
+      company: 'SELF-DIRECTED LEARNING',
       description:
-        'Building custom digital platforms for local and international clients. Full-cycle development from UI design in Figma to high-performance frontend systems with Vue, Tailwind CSS, and GSAP.',
+        'Building personal projects to practice Vue, Tailwind CSS, and GSAP. Designing interfaces in Figma and turning them into responsive, working websites.',
     },
     {
       side: 'right',
-      period: 'AUG 2025 — OCT 2025',
-      role: 'Frontend Developer Internship',
-      company: 'CREATIVE STUDIO — REMOTE',
+      period: '',
+      role: 'Personal Project Builder',
+      company: 'HANDS-ON PRACTICE',
       description:
-        'Worked on real-world production projects turning Figma designs into responsive, accessible user interfaces. Collaborated closely with senior developers, sharpening modern component workflows and code quality.',
+        'Practiced turning designs into working web pages, learning component structure, responsive layouts, and good coding habits.',
     },
     {
       side: 'left',
-      period: '2022 — 2025',
+      period: '',
       role: 'Bachelor of Science in Computer Science',
       company: 'UNIVERSITY — PHILIPPINES',
       description:
-        'Comprehensive undergraduate program focusing on software architecture, modern web engineering, algorithms, and building high-impact interactive applications.',
+        'Studied programming, web development, and software design, with hands-on projects throughout.',
     },
     {
       side: 'right',
-      period: 'JUN 2024 — AUG 2024',
-      role: 'Software Development Internship',
-      company: 'DIGITAL SOLUTIONS',
+      period: '',
+      role: 'Capstone / Thesis Project',
+      company: 'UNIVERSITY PROJECT',
       description:
-        'Built a full-stack web system to manage client workflows and real-time dashboards. Learned how to structure scalable applications, integrate APIs cleanly, and ship production-ready features.',
+        'Independently built a full-stack web system from start to finish, learning how to structure an app, connect APIs, and work with a database.',
     },
     {
       side: 'left',
-      period: '2024 — 2025',
-      role: 'Teaching Assistant & Technical Mentor',
-      company: 'ACADEMIC & CAPSTONE PROJECTS',
+      period: '',
+      role: 'Peer Study & Collaboration',
+      company: 'ACADEMIC PROJECTS',
       description:
-        'Guided fellow students through web development fundamentals, modern CSS layouts, JavaScript best practices, and debugging complex frontend interfaces.',
+        'Helped classmates with web development basics, CSS layouts, and debugging in group projects.',
     },
   ],
 
@@ -158,24 +158,25 @@ export const portfolioData = {
   // -------------------------------------------------------------------------
   projects: [
     {
-      id: 'btf-insurance',
-      title: 'BTF Insurance',
-      subtitle: 'Corporate Insurance Platform',
-      badge: 'INSURANCE TECH',
+      id: 'govserve',
+      title: 'GOVSERVE',
+      subtitle: 'Social Services Management',
+      badge: 'CAPSTONE PROJECT',
       overview:
-        'A comprehensive digital insurance portal designed for executive clarity, instant policy comparisons, and frictionless client onboarding.',
-      tech: ['Vue.js', 'Tailwind CSS', 'GSAP', 'REST API'],
+        'Capstone project: a web platform for AICS medical and burial assistance, PWD and Senior Citizen benefits, Solo Parent support, and Livelihood training.',
+      tech: ['Vue', 'React', 'TypeScript', 'Node.js', 'PostgreSQL'],
       features: [
-        'Interactive policy calculator & quote engine',
-        'Responsive client document dashboard',
-        'High-speed page transitions & SEO architecture',
+        'Citizen portal with a personal dashboard',
+        'Application and payout tracking',
+        'English / Filipino language toggle',
       ],
       stats: [
-        { label: 'Vue 3', icon: 'code' },
-        { label: 'Tailwind CSS', icon: 'layers' },
-        { label: 'GSAP', icon: 'zap' },
+        { label: 'Vue', icon: 'vue' },
+        { label: 'TypeScript', icon: 'typescript' },
+        { label: 'PostgreSQL', icon: 'postgresql' },
       ],
-      liveUrl: '#',
+      liveUrl: 'https://social-service-management.up.railway.app/',
+      imageUrl: '/images/govserve-card.png',
       visualType: 'executive',
     },
     {
@@ -230,11 +231,9 @@ export const portfolioData = {
       category: 'Frameworks & Libraries',
       items: [
         { name: 'Vue.js', slug: 'vue' },
-        { name: 'Next.js', slug: 'nextjs' },
         { name: 'React', slug: 'react' },
         { name: 'Tailwind', slug: 'tailwind' },
         { name: 'GSAP', slug: 'gsap' },
-        { name: 'Framer Motion', slug: 'framer' },
         { name: 'Bootstrap', slug: 'bootstrap' },
       ],
     },
@@ -249,8 +248,8 @@ export const portfolioData = {
       category: 'Backend & Database',
       items: [
         { name: 'Node.js', slug: 'nodejs' },
-        { name: 'Supabase', slug: 'supabase' },
-        { name: 'Firebase', slug: 'firebase' },
+        { name: 'PostgreSQL', slug: 'postgresql' },
+        { name: 'MySQL', slug: 'mysql' },
       ],
     },
     {
@@ -260,6 +259,17 @@ export const portfolioData = {
         { name: 'Git', slug: 'git' },
         { name: 'GitHub', slug: 'github' },
         { name: 'Vercel', slug: 'vercel' },
+        { name: 'Railway', slug: 'railway' },
+      ],
+    },
+    {
+      category: 'AI & Productivity',
+      items: [
+        { name: 'ChatGPT', slug: 'chatgpt' },
+        { name: 'Claude', slug: 'claude' },
+        { name: 'Gemini', slug: 'gemini' },
+        { name: 'DeepSeek', slug: 'deepseek' },
+        { name: 'Antigravity', slug: 'antigravity' },
       ],
     },
   ],

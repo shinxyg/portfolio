@@ -112,8 +112,7 @@ onBeforeUnmount(() => {
             </h3>
 
             <p class="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed max-w-md mb-7">
-              I’m currently available for freelance work and open to new opportunities. Reach out
-              if you have a project in mind or just want to connect.
+              I'm actively looking for junior full-stack or frontend opportunities. Feel free to reach out if you're hiring, want to collaborate, or just want to connect.
             </p>
 
             <!-- 4 Rounded-Square Social Icons -->
@@ -125,7 +124,7 @@ onBeforeUnmount(() => {
                 target="_blank"
                 rel="noopener noreferrer"
                 :aria-label="social.name"
-                class="w-9 h-9 rounded-lg border border-white/15 bg-white/[0.03] flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/40 transition-all duration-300"
+                class="w-9 h-9 rounded-lg border border-white/15 bg-white/3 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/40 transition-all duration-300"
               >
                 <component :is="iconMap[social.icon]" class="w-3.5 h-3.5" />
               </a>
