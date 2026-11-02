@@ -60,9 +60,9 @@ export const portfolioData = {
   // 4. SOCIAL MEDIA LINKS
   // -------------------------------------------------------------------------
   socials: [
-    { name: 'GitHub', icon: 'Github', url: 'https://github.com/shinyyg' },
-    { name: 'LinkedIn', icon: 'Linkedin', url: 'https://linkedin.com' },
-    { name: 'Mail', icon: 'Mail', url: 'mailto:renmillares111@gmail.com' },
+    { name: 'GitHub', icon: 'Github', url: 'https://github.com/shinxyg' },
+    { name: 'LinkedIn', icon: 'Linkedin', url: 'https://www.linkedin.com/in/ren-millares-4946ba448' },
+    { name: 'Mail', icon: 'Mail', url: 'https://mail.google.com/mail/?view=cm&fs=1&to=renmillares111@gmail.com' },
   ],
 
   // -------------------------------------------------------------------------
