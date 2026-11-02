@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 170">
+  <style>
+    path {
+      stroke: #10b981;
+    }
+    @media (prefers-color-scheme: dark) {
+      path {
+        stroke: #34d399;
+      }
+    }
+  </style>
+  <path
+    d="M 22 142 C 78 130, 148 92, 168 42 C 180 12, 160 6, 144 26 C 122 54, 114 106, 134 118 C 154 128, 196 104, 224 72 C 212 96, 206 112, 214 115 C 222 118, 240 96, 250 84 C 242 102, 240 114, 247 116 C 255 118, 269 100, 277 90 C 272 104, 272 114, 280 115 C 289 116, 304 102, 314 94"
+    fill="none"
+    stroke-width="20"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
+

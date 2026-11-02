@@ -77,7 +77,7 @@ onBeforeUnmount(() => {
       <!-- Centered "TECH STACK" Heading (matching 00:38-00:40) -->
       <h2
         ref="headerRef"
-        class="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-[-0.02em] text-white mb-16 sm:mb-20"
+        class="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-[-0.02em] text-zinc-950 dark:text-white mb-16 sm:mb-20 transition-colors duration-300"
       >
         TECH STACK
       </h2>
@@ -91,10 +91,10 @@ onBeforeUnmount(() => {
         >
           <!-- Category Title + Horizontal Divider Line -->
           <div class="flex items-center gap-5 mb-6">
-            <h3 class="text-sm sm:text-base font-semibold text-zinc-200 shrink-0">
+            <h3 class="text-sm sm:text-base font-semibold text-zinc-800 dark:text-zinc-200 shrink-0 transition-colors duration-300">
               {{ group.category }}
             </h3>
-            <div class="h-px flex-1 bg-white/10"></div>
+            <div class="h-px flex-1 bg-black/10 dark:bg-white/10"></div>
           </div>
 
           <!-- Square Dark Tech Icon Cards -->
@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
             <div
               v-for="item in group.items"
               :key="item.name"
-              class="tech-badge-card w-24 h-24 sm:w-28 sm:h-28 rounded-xl border border-white/10 bg-[#0b0d0c] hover:border-white/30 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center gap-2.5 p-3"
+              class="tech-badge-card w-24 h-24 sm:w-28 sm:h-28 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0b0d0c] hover:border-black/25 dark:hover:border-white/30 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center gap-2.5 p-3 shadow-sm dark:shadow-none"
             >
               <!-- Official Colored Tech Logos -->
               <div class="w-8 h-8 flex items-center justify-center">
@@ -147,7 +147,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- Framer Motion -->
-                <svg v-else-if="item.slug === 'framer'" viewBox="0 0 24 24" class="w-6 h-6" fill="#ffffff">
+                <svg v-else-if="item.slug === 'framer'" viewBox="0 0 24 24" class="w-6 h-6 fill-black dark:fill-white">
                   <path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z" />
                 </svg>
 
@@ -202,11 +202,10 @@ onBeforeUnmount(() => {
                 <svg
                   v-else-if="item.slug === 'railway'"
                   viewBox="0 0 1024 1024"
-                  class="w-7 h-7"
-                  fill="none"
+                  class="w-7 h-7 fill-black dark:fill-white"
                 >
-                  <path d="M4.8 438.2A520.7 520.7 0 000 489.7h777.8c-2.7-5.3-6.4-10-10-14.7-133-171.8-204.5-157-306.9-161.3-34-1.4-57.2-2-193-2-72.7 0-151.7.2-228.6.4A621 621 0 0015 386.3h398.6v51.9H4.8zm779.1 103.5H.4c.8 13.8 2.1 27.5 4 41h723.4c32.2 0 50.3-18.3 56.1-41zM45 724.3s120 294.5 466.5 299.7c207 0 385-123 465.9-299.7H45z" fill="#ffffff"/>
-                  <path d="M511.5 0A512.2 512.2 0 0065.3 260.6l202.7-.2c158.4 0 164.2.6 195.2 2l19.1.6c66.7 2.3 148.7 9.4 213.2 58.2 35 26.5 85.6 85 115.7 126.5 27.9 38.5 35.9 82.8 17 125.2-17.5 39-55 62.2-100.4 62.2H16.7s4.2 18 10.6 37.8h970.6a510.4 510.4 0 0026.1-160.7A512.4 512.4 0 00511.5 0z" fill="#ffffff"/>
+                  <path d="M4.8 438.2A520.7 520.7 0 000 489.7h777.8c-2.7-5.3-6.4-10-10-14.7-133-171.8-204.5-157-306.9-161.3-34-1.4-57.2-2-193-2-72.7 0-151.7.2-228.6.4A621 621 0 0015 386.3h398.6v51.9H4.8zm779.1 103.5H.4c.8 13.8 2.1 27.5 4 41h723.4c32.2 0 50.3-18.3 56.1-41zM45 724.3s120 294.5 466.5 299.7c207 0 385-123 465.9-299.7H45z" />
+                  <path d="M511.5 0A512.2 512.2 0 0065.3 260.6l202.7-.2c158.4 0 164.2.6 195.2 2l19.1.6c66.7 2.3 148.7 9.4 213.2 58.2 35 26.5 85.6 85 115.7 126.5 27.9 38.5 35.9 82.8 17 125.2-17.5 39-55 62.2-100.4 62.2H16.7s4.2 18 10.6 37.8h970.6a510.4 510.4 0 0026.1-160.7A512.4 512.4 0 00511.5 0z" />
                 </svg>
 
                 <!-- Figma -->
@@ -226,7 +225,7 @@ onBeforeUnmount(() => {
                 </svg>
 
                 <!-- GitHub -->
-                <svg v-else-if="item.slug === 'github'" viewBox="0 0 24 24" class="w-7 h-7" fill="#ffffff">
+                <svg v-else-if="item.slug === 'github'" viewBox="0 0 24 24" class="w-7 h-7 fill-black dark:fill-white">
                   <path
                     d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.39-3.87-1.39-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11.02 11.02 0 0 1 5.78 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.58.24 2.75.12 3.04.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"
                   />
@@ -274,12 +273,12 @@ onBeforeUnmount(() => {
                 />
 
                 <!-- Vercel -->
-                <svg v-else viewBox="0 0 24 24" class="w-6 h-6" fill="#ffffff">
+                <svg v-else viewBox="0 0 24 24" class="w-6 h-6 fill-black dark:fill-white">
                   <path d="M12 2 1 21h22L12 2z" />
                 </svg>
               </div>
 
-              <span class="text-[10px] sm:text-[11px] font-medium text-zinc-400 text-center">
+              <span class="text-[10px] sm:text-[11px] font-medium text-zinc-600 dark:text-zinc-400 text-center transition-colors duration-300">
                 {{ item.name }}
               </span>
             </div>

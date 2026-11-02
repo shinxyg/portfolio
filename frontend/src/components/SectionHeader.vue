@@ -83,12 +83,12 @@ onBeforeUnmount(() => {
 
     <h2
       ref="giantTitleRef"
-      class="text-[clamp(2.8rem,7vw,6.5rem)] font-extrabold uppercase tracking-[-0.04em] leading-[0.92] text-white will-change-transform"
+      class="text-[clamp(2.8rem,7vw,6.5rem)] font-extrabold uppercase tracking-[-0.04em] leading-[0.92] text-zinc-950 dark:text-white will-change-transform transition-colors duration-300"
     >
       {{ title }}
     </h2>
 
-    <div class="mt-6 w-full h-px bg-gradient-to-r from-white/20 via-white/5 to-transparent"></div>
+    <div class="mt-6 w-full h-px bg-linear-to-r from-black/20 via-black/5 to-transparent dark:from-white/20 dark:via-white/5 dark:to-transparent"></div>
   </div>
 </template>
 

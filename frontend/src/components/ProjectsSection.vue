@@ -232,7 +232,7 @@ onBeforeUnmount(() => {
       </p>
 
       <div
-        class="flex items-center justify-center text-[clamp(3.6rem,12.5vw,10.5rem)] font-black uppercase tracking-[-0.04em] leading-none text-white"
+        class="flex items-center justify-center text-[clamp(3.6rem,12.5vw,10.5rem)] font-black uppercase tracking-[-0.04em] leading-none text-zinc-950 dark:text-white transition-colors duration-300"
       >
         <span ref="proLeftRef" class="inline-block will-change-transform">PRO</span>
         <span ref="jectsRightRef" class="inline-block will-change-transform">JECTS</span>
@@ -253,7 +253,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           @click="rotateCarousel(-1)"
-          class="hidden sm:flex shrink-0 w-9 h-9 rounded-full border border-white/15 bg-black/70 items-center justify-center text-zinc-300 hover:text-white hover:border-white transition-all cursor-pointer"
+          class="hidden sm:flex shrink-0 w-9 h-9 rounded-full border border-black/15 bg-white/80 dark:border-white/15 dark:bg-black/70 items-center justify-center text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:border-black/30 dark:hover:border-white transition-all cursor-pointer shadow-sm"
           aria-label="Previous project"
         >
           <ChevronLeft class="w-4 h-4" />
@@ -268,7 +268,7 @@ onBeforeUnmount(() => {
             v-for="(projIndex, slotIdx) in currentOrder"
             :key="portfolioData.projects[projIndex].id"
             :data-card="portfolioData.projects[projIndex].id"
-            class="w-full max-w-[320px] h-87.5 sm:h-92.5 rounded-2xl overflow-hidden border border-white/15 bg-[#0b0d0c] relative shadow-[0_24px_60px_rgba(0,0,0,0.85)]"
+            class="w-full max-w-[320px] h-87.5 sm:h-92.5 rounded-2xl overflow-hidden border border-black/10 dark:border-white/15 bg-white dark:bg-[#0b0d0c] relative shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_24px_60px_rgba(0,0,0,0.85)] transition-colors duration-300"
             :class="slotIdx !== 0 ? 'hidden md:block' : 'block'"
           >
             <Transition
@@ -382,7 +382,7 @@ onBeforeUnmount(() => {
                 <button
                   type="button"
                   @click="toggleDetails(portfolioData.projects[projIndex].id)"
-                  class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white text-black text-[10px] font-bold uppercase tracking-[0.16em] shadow-lg hover:bg-zinc-200 transition-transform duration-200 active:scale-95 cursor-pointer"
+                  class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-black text-[10px] font-bold uppercase tracking-[0.16em] shadow-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all duration-200 active:scale-95 cursor-pointer"
                 >
                   <span>DETAILS</span>
                   <ArrowUpRight class="w-3 h-3 stroke-[2.5]" />
@@ -395,18 +395,18 @@ onBeforeUnmount(() => {
             <!-- ============================================================= -->
             <div
               v-else
-              class="w-full h-full bg-[#0d110f] p-6 flex flex-col justify-between text-left"
+              class="w-full h-full bg-[#f8fafc] dark:bg-[#0d110f] p-6 flex flex-col justify-between text-left transition-colors duration-300"
             >
               <div>
                 <!-- Header + Close Button -->
                 <div class="flex items-center justify-between mb-3">
-                  <h3 class="text-lg font-bold tracking-tight text-white">
+                  <h3 class="text-lg font-bold tracking-tight text-zinc-900 dark:text-white transition-colors duration-300">
                     {{ portfolioData.projects[projIndex].title }}
                   </h3>
                   <button
                     type="button"
                     @click="toggleDetails(portfolioData.projects[projIndex].id)"
-                    class="w-6 h-6 rounded-full bg-white/10 text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
+                    class="w-6 h-6 rounded-full bg-black/10 dark:bg-white/10 text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white flex items-center justify-center cursor-pointer transition-colors duration-300"
                     aria-label="Close details"
                   >
                     <X class="w-3.5 h-3.5" />
@@ -414,7 +414,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 3 Tabs: OVERVIEW | TECH | FEATURES (matching 00:30 & 00:35) -->
-                <div class="flex items-center gap-4 border-b border-white/10 pb-2 mb-3.5">
+                <div class="flex items-center gap-4 border-b border-black/10 dark:border-white/10 pb-2 mb-3.5">
                   <button
                     v-for="tab in ['OVERVIEW', 'TECH', 'FEATURES']"
                     :key="tab"
@@ -423,8 +423,8 @@ onBeforeUnmount(() => {
                     class="text-[9px] font-semibold uppercase tracking-[0.22em] transition-colors cursor-pointer pb-1 -mb-2.25 border-b"
                     :class="
                       activeTab[portfolioData.projects[projIndex].id] === tab
-                        ? 'text-white border-white'
-                        : 'text-zinc-500 border-transparent hover:text-zinc-300'
+                        ? 'text-zinc-950 dark:text-white border-zinc-950 dark:border-white'
+                        : 'text-zinc-500 dark:text-zinc-500 border-transparent hover:text-zinc-800 dark:hover:text-zinc-300'
                     "
                   >
                     {{ tab }}
@@ -435,7 +435,7 @@ onBeforeUnmount(() => {
                 <div class="min-h-28.75">
                   <p
                     v-if="activeTab[portfolioData.projects[projIndex].id] === 'OVERVIEW'"
-                    class="text-xs text-zinc-300 font-light leading-relaxed"
+                    class="text-xs text-zinc-700 dark:text-zinc-300 font-light leading-relaxed"
                   >
                     {{ portfolioData.projects[projIndex].overview }}
                   </p>
@@ -447,30 +447,30 @@ onBeforeUnmount(() => {
                     <span
                       v-for="t in portfolioData.projects[projIndex].tech"
                       :key="t"
-                      class="px-2.5 py-1 rounded-md bg-white/6 border border-white/10 text-[10px] text-zinc-200"
+                      class="px-2.5 py-1 rounded-md bg-black/5 dark:bg-white/6 border border-black/10 dark:border-white/10 text-[10px] text-zinc-800 dark:text-zinc-200"
                     >
                       {{ t }}
                     </span>
                   </div>
 
-                  <ul v-else class="space-y-1.5 text-[11px] text-zinc-300">
+                  <ul v-else class="space-y-1.5 text-[11px] text-zinc-700 dark:text-zinc-300">
                     <li
                       v-for="feat in portfolioData.projects[projIndex].features"
                       :key="feat"
                       class="flex items-start gap-2"
                     >
-                      <span class="mt-1.5 w-1 h-1 rounded-full bg-white shrink-0"></span>
+                      <span class="mt-1.5 w-1 h-1 rounded-full bg-zinc-800 dark:bg-white shrink-0"></span>
                       <span>{{ feat }}</span>
                     </li>
                   </ul>
                 </div>
 
                 <!-- Mini Tech Badges Row (matching 00:30 & 00:35) -->
-                <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-white/10">
+                <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-black/10 dark:border-white/10">
                   <div
                     v-for="stat in portfolioData.projects[projIndex].stats"
                     :key="stat.label"
-                    class="flex items-center gap-1.5 text-[10px] text-zinc-300"
+                    class="flex items-center gap-1.5 text-[10px] text-zinc-700 dark:text-zinc-300"
                   >
                     <!-- Official Vue Logo -->
                     <svg
@@ -515,7 +515,7 @@ onBeforeUnmount(() => {
                 :href="portfolioData.projects[projIndex].liveUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="mt-4 w-full py-2.5 rounded-full bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-1.5 hover:bg-zinc-200 transition-colors"
+                class="mt-4 w-full py-2.5 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-black text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-1.5 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors shadow-md"
               >
                 <span>VISIT WEBSITE</span>
                 <ArrowUpRight class="w-3.5 h-3.5 stroke-[2.5]" />
@@ -529,7 +529,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           @click="rotateCarousel(1)"
-          class="hidden sm:flex shrink-0 w-9 h-9 rounded-full border border-white/15 bg-black/70 items-center justify-center text-zinc-300 hover:text-white hover:border-white transition-all cursor-pointer"
+          class="hidden sm:flex shrink-0 w-9 h-9 rounded-full border border-black/15 bg-white/80 dark:border-white/15 dark:bg-black/70 items-center justify-center text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:border-black/30 dark:hover:border-white transition-all cursor-pointer shadow-sm"
           aria-label="Next project"
         >
           <ChevronRight class="w-4 h-4" />

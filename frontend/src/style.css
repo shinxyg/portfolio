@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --bg-primary: #000000;
@@ -8,14 +10,22 @@
 
   html {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #000000;
-    color: #ffffff;
     scroll-behavior: auto;
   }
 
-  body {
+  html.dark {
     background-color: #000000;
     color: #ffffff;
+  }
+
+  html:not(.dark) {
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  body {
+    background-color: inherit;
+    color: inherit;
     overflow-x: hidden;
   }
 }
@@ -43,12 +53,38 @@ html.lenis body {
   filter: grayscale(100%) contrast(1.25) brightness(0.82);
 }
 
-/* Subtle dark green ambient vignette from the video */
+/* Subtle ambient vignette */
 .video-ambient-bg {
   background:
     radial-gradient(circle at 50% 100%, rgba(10, 46, 26, 0.35) 0%, rgba(0, 0, 0, 0) 65%),
     radial-gradient(circle at 85% 20%, rgba(8, 36, 20, 0.22) 0%, rgba(0, 0, 0, 0) 55%),
     #000000;
+}
+
+html:not(.dark) .video-ambient-bg {
+  background:
+    radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.12) 0%, rgba(248, 250, 252, 0) 65%),
+    radial-gradient(circle at 85% 20%, rgba(16, 185, 129, 0.08) 0%, rgba(248, 250, 252, 0) 55%),
+    #f8fafc;
+}
+
+/* View Transition Ripple Effect */
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: ripple-reveal 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 99999;
+}
+
+@keyframes ripple-reveal {
+  from {
+    clip-path: circle(0px at var(--ripple-x, 100%) var(--ripple-y, 0px));
+  }
+  to {
+    clip-path: circle(var(--ripple-radius, 150vmax) at var(--ripple-x, 100%) var(--ripple-y, 0px));
+  }
 }
 
 /* Subtle custom scrollbar */
@@ -64,4 +100,14 @@ html.lenis body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #525252;
+}
+
+html:not(.dark) ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

@@ -25,6 +25,7 @@ export const portfolioData = {
     // CHANGE YOUR PORTRAIT PHOTO / HERO VIDEO HERE:
     // Place your video or image inside `frontend/public/` and update the paths below:
     heroVideoUrl: '/hero-video.mp4',
+
     portraitUrl: '/images/portrait.jpg',
 
     // CHANGE YOUR CV DOWNLOAD FILE / LINK HERE:
@@ -59,10 +60,9 @@ export const portfolioData = {
   // 4. SOCIAL MEDIA LINKS
   // -------------------------------------------------------------------------
   socials: [
-    { name: 'GitHub', icon: 'Github', url: 'https://github.com' },
+    { name: 'GitHub', icon: 'Github', url: 'https://github.com/shinyyg' },
     { name: 'LinkedIn', icon: 'Linkedin', url: 'https://linkedin.com' },
     { name: 'Mail', icon: 'Mail', url: 'mailto:renmillares111@gmail.com' },
-    { name: 'Link', icon: 'Link2', url: '#projects' },
   ],
 
   // -------------------------------------------------------------------------

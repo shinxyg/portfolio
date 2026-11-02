@@ -117,7 +117,7 @@ onBeforeUnmount(() => {
           MY JOURNEY
         </p>
         <h2
-          class="text-[clamp(3.8rem,10.5vw,9rem)] font-extrabold tracking-[-0.04em] leading-[0.88] text-white"
+          class="text-[clamp(3.8rem,10.5vw,9rem)] font-extrabold tracking-[-0.04em] leading-[0.88] text-zinc-950 dark:text-white transition-colors duration-300"
         >
           Experience
         </h2>
@@ -128,18 +128,18 @@ onBeforeUnmount(() => {
     <div ref="timelineContainerRef" class="relative max-w-5xl mx-auto py-8">
       <!-- Vertical Center Track Line -->
       <div
-        class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-white/15"
+        class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-black/15 dark:bg-white/15"
       >
         <!-- Filled Progress Line -->
         <div
           ref="lineFillRef"
-          class="w-full h-full bg-white/60 origin-top"
+          class="w-full h-full bg-black/60 dark:bg-white/60 origin-top"
         ></div>
 
         <!-- Traveling White Circle with Down Arrow (↓) matching 00:21 -> 00:25 -->
         <div
           ref="arrowFollowerRef"
-          class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.65)]"
+          class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-black flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.25)] dark:shadow-[0_0_20px_rgba(255,255,255,0.65)] transition-colors duration-300"
         >
           <ArrowDown class="w-3.5 h-3.5 stroke-[2.5]" />
         </div>
@@ -161,13 +161,13 @@ onBeforeUnmount(() => {
             <p class="text-[9px] font-mono uppercase tracking-[0.28em] text-zinc-500 mb-1.5">
               {{ item.period }}
             </p>
-            <h3 class="text-lg sm:text-xl font-bold tracking-tight text-white mb-1">
+            <h3 class="text-lg sm:text-xl font-bold tracking-tight text-zinc-900 dark:text-white mb-1 transition-colors duration-300">
               {{ item.role }}
             </h3>
-            <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-400 mb-3">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-600 dark:text-zinc-400 mb-3 transition-colors duration-300">
               {{ item.company }}
             </p>
-            <p class="text-xs sm:text-[13px] text-zinc-400 font-light leading-relaxed max-w-sm md:ml-auto">
+            <p class="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 font-light leading-relaxed max-w-sm md:ml-auto transition-colors duration-300">
               {{ item.description }}
             </p>
           </div>
@@ -184,13 +184,13 @@ onBeforeUnmount(() => {
             <p class="text-[9px] font-mono uppercase tracking-[0.28em] text-zinc-500 mb-1.5">
               {{ item.period }}
             </p>
-            <h3 class="text-lg sm:text-xl font-bold tracking-tight text-white mb-1">
+            <h3 class="text-lg sm:text-xl font-bold tracking-tight text-zinc-900 dark:text-white mb-1 transition-colors duration-300">
               {{ item.role }}
             </h3>
-            <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-400 mb-3">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-600 dark:text-zinc-400 mb-3 transition-colors duration-300">
               {{ item.company }}
             </p>
-            <p class="text-xs sm:text-[13px] text-zinc-400 font-light leading-relaxed max-w-sm">
+            <p class="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 font-light leading-relaxed max-w-sm transition-colors duration-300">
               {{ item.description }}
             </p>
           </div>

@@ -3,6 +3,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
+import { useTheme } from './composables/useTheme'
 
 import Preloader from './components/Preloader.vue'
 import Navbar from './components/Navbar.vue'
@@ -16,6 +17,7 @@ import ContactSection from './components/ContactSection.vue'
 gsap.registerPlugin(ScrollTrigger)
 
 const isReady = ref(false)
+const { initTheme } = useTheme()
 let lenis = null
 let tickerCallback = null
 
@@ -42,6 +44,7 @@ function scrollToSection(target) {
 }
 
 onMounted(() => {
+  initTheme()
   window.scrollTo(0, 0)
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -76,7 +79,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-black text-white selection:bg-white selection:text-black">
+  <div class="min-h-screen bg-[#f8fafc] text-zinc-900 dark:bg-black dark:text-white transition-colors duration-300">
     <!-- 1. Pure Black SVG Signature Preloader (00:00 - 00:06) -->
     <Preloader @complete="handlePreloaderComplete" />
 

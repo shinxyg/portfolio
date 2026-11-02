@@ -1,10 +1,11 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, nextTick, computed } from 'vue'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Github, Linkedin, Mail, Link2 } from 'lucide-vue-next'
+import SocialIcon from './SocialIcon.vue'
 import SignatureSvg from './SignatureSvg.vue'
 import { portfolioData } from '../data/portfolio'
+import { useTheme } from '../composables/useTheme'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -17,6 +18,8 @@ const props = defineProps({
 
 const emit = defineEmits(['navigate'])
 
+const { isDark } = useTheme()
+
 const heroSectionRef = ref(null)
 const videoContainerRef = ref(null)
 const videoElRef = ref(null)
@@ -27,12 +30,9 @@ const overlaySigWrapRef = ref(null)
 
 let matchMediaCtx = null
 
-const iconMap = {
-  Github,
-  Linkedin,
-  Mail,
-  Link2,
-}
+// iconMap replaced by SocialIcon component
+
+const currentVideoUrl = computed(() => portfolioData.personal.heroVideoUrl)
 
 function setTextItemRef(el, idx) {
   if (el) textItemsRef.value[idx] = el
@@ -168,17 +168,18 @@ onMounted(() => {
 
     // -----------------------------------------------------------------------
     // STAGE 3 (Second half of scroll):
-    // Left text moves up and fades out; Video re-centers as frames advance to
-    // the sword swing & purple aura climax (~2.8s -> 6.0s), and the giant
-    // white handwritten signature draws itself ON TOP of the video!
+    // Video centers back while drawing sword; text disappears.
     // -----------------------------------------------------------------------
+    tl.addLabel('stage3')
+
     tl.to(
-      leftTextColRef.value,
+      textItemsRef.value,
       {
-        y: -70,
         opacity: 0,
-        duration: 0.85,
-        ease: 'power2.inOut',
+        y: -24,
+        stagger: 0.05,
+        duration: 0.65,
+        ease: 'power2.in',
       },
       'stage3'
     )
@@ -219,13 +220,13 @@ onMounted(() => {
         {
           strokeDashoffset: 0,
           duration: 1.15,
-          ease: 'power2.inOut',
+          ease: 'power2.out',
         },
-        'stage3+=0.45'
+        'stage3+=0.48'
       )
     }
 
-    tl.to({}, { duration: 0.35 })
+    tl.to({}, { duration: 0.55 })
   })
 })
 
@@ -238,31 +239,30 @@ onBeforeUnmount(() => {
   <section
     id="hero"
     ref="heroSectionRef"
-    class="relative w-full h-screen min-h-[680px] bg-black overflow-hidden flex items-center justify-center"
+    class="relative w-full h-screen min-h-170 bg-[#f8fafc] dark:bg-black overflow-hidden flex items-center justify-center transition-colors duration-300"
   >
     <!--
       ========================================================================
-      CENTER SCROLL-SCRUBBED HERO VIDEO (Strictly Paused Until User Scrolls)
+      CENTER SCROLL-SCRUBBED HERO VIDEO (Solution A: Transparent WebM Ready)
       ========================================================================
-      Video file: `frontend/public/hero-video.mp4`
     -->
     <div
       ref="videoContainerRef"
-      class="relative z-10 w-[92vw] sm:w-[560px] md:w-[660px] h-[85vh] max-h-[780px] opacity-0 flex items-center justify-center select-none pointer-events-none will-change-transform"
+      class="relative z-10 w-[92vw] sm:w-[420px] max-w-[420px] h-[82vh] max-h-[720px] rounded-3xl overflow-hidden bg-black shadow-[0_25px_60px_rgba(0,0,0,0.18)] border border-black/10 dark:w-[92vw] dark:sm:w-140 dark:md:w-165 dark:max-w-none dark:h-[85vh] dark:max-h-195 dark:rounded-none dark:overflow-visible dark:bg-transparent dark:shadow-none dark:border-transparent opacity-0 flex items-center justify-center select-none pointer-events-none will-change-transform transition-all duration-300"
     >
       <video
         ref="videoElRef"
-        :src="portfolioData.personal.heroVideoUrl"
+        :src="currentVideoUrl"
         muted
         playsinline
         preload="auto"
         @loadedmetadata="handleVideoLoaded"
-        class="w-full h-full object-contain will-change-transform"
-        style="
-          mix-blend-mode: lighten;
-          -webkit-mask-image: radial-gradient(ellipse 68% 76% at 50% 46%, #000 52%, transparent 96%);
-          mask-image: radial-gradient(ellipse 68% 76% at 50% 46%, #000 52%, transparent 96%);
-        "
+        class="w-full h-full object-cover dark:object-contain will-change-transform"
+        :style="isDark ? {
+          mixBlendMode: 'lighten',
+          WebkitMaskImage: 'radial-gradient(ellipse 68% 76% at 50% 46%, #000 52%, transparent 96%)',
+          maskImage: 'radial-gradient(ellipse 68% 76% at 50% 46%, #000 52%, transparent 96%)'
+        } : {}"
       ></video>
 
       <!-- Stage 3 Giant Handwritten Signature Drawn Over the Sword Climax -->
@@ -272,7 +272,7 @@ onBeforeUnmount(() => {
       >
         <SignatureSvg
           ref="overlaySigCompRef"
-          className="w-64 sm:w-80 md:w-96 h-auto text-white drop-shadow-[0_6px_28px_rgba(0,0,0,0.95)]"
+          className="w-64 sm:w-80 md:w-96 h-auto text-emerald-500 dark:text-white drop-shadow-[0_6px_28px_rgba(0,0,0,0.35)] dark:drop-shadow-[0_6px_28px_rgba(0,0,0,0.95)] transition-colors duration-300"
           :strokeWidth="4.2"
         />
       </div>
@@ -291,7 +291,7 @@ onBeforeUnmount(() => {
         <!-- Subtitle: "Frontend Developer & UI/UX Engineer" -->
         <p
           :ref="(el) => setTextItemRef(el, 0)"
-          class="text-sm sm:text-base md:text-lg font-normal text-zinc-300 tracking-wide mb-1.5"
+          class="text-sm sm:text-base md:text-lg font-normal text-zinc-600 dark:text-zinc-300 tracking-wide mb-1.5 transition-colors duration-300"
         >
           {{ portfolioData.personal.title }}
         </p>
@@ -299,7 +299,7 @@ onBeforeUnmount(() => {
         <!-- Huge Bold Name: "Clarence Millares" -->
         <h1
           :ref="(el) => setTextItemRef(el, 1)"
-          class="text-[clamp(2.75rem,6.5vw,5.6rem)] font-bold tracking-[-0.03em] leading-[1.02] text-white mb-4"
+          class="text-[clamp(2.75rem,6.5vw,5.6rem)] font-bold tracking-[-0.03em] leading-[1.02] text-zinc-950 dark:text-white mb-4 transition-colors duration-300"
         >
           {{ portfolioData.personal.name }}
         </h1>
@@ -307,12 +307,12 @@ onBeforeUnmount(() => {
         <!-- Short Description -->
         <p
           :ref="(el) => setTextItemRef(el, 2)"
-          class="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed max-w-md mb-7"
+          class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-7 transition-colors duration-300"
         >
           {{ portfolioData.personal.description }}
         </p>
 
-        <!-- 2 Buttons: Solid White "DOWNLOAD CV" & Dark Outlined "CONTACT ME" -->
+        <!-- 2 Buttons: Solid "DOWNLOAD CV" & Outlined "CONTACT ME" -->
         <div
           :ref="(el) => setTextItemRef(el, 3)"
           class="flex flex-wrap items-center gap-3.5 mb-7"
@@ -320,7 +320,7 @@ onBeforeUnmount(() => {
           <a
             :href="portfolioData.personal.cvUrl"
             @click.prevent="emit('navigate', '#contact')"
-            class="px-6 py-2.5 rounded-md bg-white text-black text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-zinc-200 transition-colors duration-300"
+            class="px-6 py-2.5 rounded-md bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 shadow-sm"
           >
             DOWNLOAD CV
           </a>
@@ -328,7 +328,7 @@ onBeforeUnmount(() => {
           <a
             href="#contact"
             @click.prevent="emit('navigate', '#contact')"
-            class="px-6 py-2.5 rounded-md border border-white/25 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.18em] hover:border-white hover:bg-white/10 transition-all duration-300"
+            class="px-6 py-2.5 rounded-md border border-zinc-300 bg-white/80 text-zinc-800 hover:bg-zinc-100 hover:border-zinc-400 dark:border-white/25 dark:bg-black/50 dark:text-white dark:hover:border-white dark:hover:bg-white/10 backdrop-blur-sm text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.18em] transition-all duration-300 shadow-sm"
           >
             CONTACT ME
           </a>
@@ -346,9 +346,9 @@ onBeforeUnmount(() => {
             target="_blank"
             rel="noopener noreferrer"
             :aria-label="social.name"
-            class="w-9 h-9 rounded-lg border border-white/15 bg-black/60 backdrop-blur-sm flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/40 transition-all duration-300"
+            class="w-9 h-9 rounded-lg border border-zinc-300 bg-white/80 dark:border-white/15 dark:bg-black/60 backdrop-blur-sm flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:border-zinc-500 dark:hover:border-white/40 transition-all duration-300 shadow-sm"
           >
-            <component :is="iconMap[social.icon]" class="w-3.5 h-3.5" />
+            <SocialIcon :name="social.name" className="w-4 h-4" />
           </a>
         </div>
       </div>
