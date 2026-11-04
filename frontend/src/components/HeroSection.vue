@@ -272,7 +272,7 @@ onBeforeUnmount(() => {
       >
         <SignatureSvg
           ref="overlaySigCompRef"
-          className="w-64 sm:w-80 md:w-96 h-auto text-emerald-500 dark:text-white drop-shadow-[0_6px_28px_rgba(0,0,0,0.35)] dark:drop-shadow-[0_6px_28px_rgba(0,0,0,0.95)] transition-colors duration-300"
+          className="w-64 sm:w-80 md:w-96 h-auto text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)] transition-colors duration-300"
           :strokeWidth="4.2"
         />
       </div>
