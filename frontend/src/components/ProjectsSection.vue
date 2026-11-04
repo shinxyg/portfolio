@@ -69,31 +69,33 @@ async function rotateCarousel(dir) {
     return
   }
 
+  const centerId = portfolioData.projects[currentOrder.value[1]]?.id
   const els = row.querySelectorAll('[data-card]')
   els.forEach((el) => {
     const prev = before[el.dataset.card]
     const now = el.getBoundingClientRect()
     let dx = dir > 0 ? 90 : -90
-    let startOpacity = 0
     if (prev && prev.width > 0 && now.width > 0) {
       dx = prev.left - now.left
       if (Math.abs(dx) > now.width * 1.1) {
         dx = dir > 0 ? 80 : -80
       }
     }
+    const isEnteringCenter = el.dataset.card === centerId
     gsap.fromTo(
       el,
-      { x: dx },
+      { x: dx, y: isEnteringCenter ? -14 : 6 },
       {
         x: 0,
-        duration: 0.55,
-        ease: 'power3.out',
+        y: 0,
+        duration: isEnteringCenter ? 0.6 : 0.52,
+        ease: isEnteringCenter ? 'back.out(1.2)' : 'power3.out',
         clearProps: 'transform',
       }
     )
   })
 
-  gsap.delayedCall(0.55, () => {
+  gsap.delayedCall(0.58, () => {
     isRotating = false
   })
 }
@@ -115,6 +117,29 @@ function goToProjectIndex(targetIdx) {
     rotateCarousel(-1)
   } else if (currentOrder.value[2] === targetIdx) {
     rotateCarousel(1)
+  }
+}
+
+// Mobile touch swipe gestures
+let touchStartX = 0
+let touchStartY = 0
+
+function onTouchStart(e) {
+  if (!e.touches || e.touches.length === 0) return
+  touchStartX = e.touches[0].clientX
+  touchStartY = e.touches[0].clientY
+}
+
+function onTouchEnd(e) {
+  if (!e.changedTouches || e.changedTouches.length === 0) return
+  const diffX = e.changedTouches[0].clientX - touchStartX
+  const diffY = e.changedTouches[0].clientY - touchStartY
+  if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX < 0) {
+      rotateCarousel(1)
+    } else {
+      rotateCarousel(-1)
+    }
   }
 }
 
@@ -274,29 +299,33 @@ onBeforeUnmount(() => {
           <ChevronLeft class="w-4 h-4" />
         </button>
 
-        <!-- 3 Project Cards: Overlapping Stacked Deck (Side cards tucked behind center) -->
+        <!-- 3 Project Cards: Overlapping Stacked Deck with Touch Swipe & 3D Tilt -->
         <div
           ref="cardsRowRef"
-          class="flex items-center justify-center w-full max-w-4xl mx-auto py-2"
+          @touchstart.passive="onTouchStart"
+          @touchend.passive="onTouchEnd"
+          class="flex items-center justify-center w-full max-w-4xl mx-auto py-2 select-none touch-pan-y"
         >
           <div
             v-for="(projIndex, slotIdx) in currentOrder"
             :key="portfolioData.projects[projIndex].id"
             :data-card="portfolioData.projects[projIndex].id"
-            class="shrink-0 w-full max-w-[300px] sm:max-w-[320px] h-87.5 sm:h-92.5 relative flex items-center justify-center will-change-transform transition-all duration-500"
+            class="shrink-0 w-full max-w-[300px] sm:max-w-[320px] h-87.5 sm:h-92.5 relative flex items-center justify-center will-change-transform"
             :class="[
               slotIdx === 1 ? 'flex z-20' : 'hidden md:flex z-10',
               slotIdx === 0 ? 'md:-mr-16 lg:-mr-24' : '',
               slotIdx === 2 ? 'md:-ml-16 lg:-ml-24' : ''
             ]"
           >
-            <!-- Inner Card: Center card is sharp & primary focus; Side cards are tucked behind, blurred & dimmed -->
+            <!-- Inner Card: 3D Tilt, Arc Lift, Depth Blur, and Perspective Transition -->
             <div
-              class="w-full h-full rounded-2xl overflow-hidden border bg-white dark:bg-[#0b0d0c] relative transition-all duration-500 ease-out select-none"
+              class="w-full h-full rounded-2xl overflow-hidden border bg-white dark:bg-[#0b0d0c] relative transition-all duration-500 ease-out select-none transform-gpu"
               :class="[
                 slotIdx === 1
-                  ? 'scale-100 md:scale-[1.06] opacity-100 blur-none border-black/20 dark:border-white/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9),0_0_50px_rgba(255,255,255,0.08)]'
-                  : 'md:scale-[0.88] md:opacity-25 md:hover:opacity-55 md:blur-[4.5px] md:hover:blur-[1.5px] border-black/10 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.6)] cursor-pointer'
+                  ? 'scale-100 md:scale-[1.06] rotate-0 opacity-100 blur-none border-black/20 dark:border-white/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9),0_0_50px_rgba(255,255,255,0.08)]'
+                  : 'md:scale-[0.88] md:opacity-25 md:hover:opacity-55 md:blur-[4.5px] md:hover:blur-[1.5px] border-black/10 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.6)] cursor-pointer',
+                slotIdx === 0 ? 'md:-rotate-3' : '',
+                slotIdx === 2 ? 'md:rotate-3' : ''
               ]"
             >
               <!-- Click catcher overlay on blurred side cards to smoothly focus them to center -->
