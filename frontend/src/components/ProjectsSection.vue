@@ -77,23 +77,18 @@ async function rotateCarousel(dir) {
     let startOpacity = 0
     if (prev && prev.width > 0 && now.width > 0) {
       dx = prev.left - now.left
-      // The card that wraps around from one end to the other fades in instead of flying across
       if (Math.abs(dx) > now.width * 1.5) {
         dx = dir > 0 ? 90 : -90
-      } else {
-        startOpacity = 1
       }
     }
     gsap.fromTo(
       el,
-      { x: dx, opacity: startOpacity, scale: startOpacity ? 1 : 0.92 },
+      { x: dx },
       {
         x: 0,
-        opacity: 1,
-        scale: 1,
         duration: 0.55,
         ease: 'power3.out',
-        clearProps: 'transform,opacity',
+        clearProps: 'transform',
       }
     )
   })
@@ -101,6 +96,26 @@ async function rotateCarousel(dir) {
   gsap.delayedCall(0.55, () => {
     isRotating = false
   })
+}
+
+// Click on side cards (blurred ones) smoothly rotates that card to center
+function onSideCardClick(slotIdx) {
+  if (slotIdx === 0) {
+    rotateCarousel(-1)
+  } else if (slotIdx === 2) {
+    rotateCarousel(1)
+  }
+}
+
+// Direct jump via pagination dots
+function goToProjectIndex(targetIdx) {
+  const currentCenterIdx = currentOrder.value[1]
+  if (currentCenterIdx === targetIdx) return
+  if (currentOrder.value[0] === targetIdx) {
+    rotateCarousel(-1)
+  } else if (currentOrder.value[2] === targetIdx) {
+    rotateCarousel(1)
+  }
 }
 
 // Details panel <-> poster card: shrink + fade
@@ -268,10 +283,27 @@ onBeforeUnmount(() => {
             v-for="(projIndex, slotIdx) in currentOrder"
             :key="portfolioData.projects[projIndex].id"
             :data-card="portfolioData.projects[projIndex].id"
-            class="w-full max-w-[320px] h-87.5 sm:h-92.5 rounded-2xl overflow-hidden border border-black/10 dark:border-white/15 bg-white dark:bg-[#0b0d0c] relative shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_24px_60px_rgba(0,0,0,0.85)] transition-colors duration-300"
-            :class="slotIdx !== 0 ? 'hidden md:block' : 'block'"
+            class="w-full max-w-[320px] h-87.5 sm:h-92.5 relative flex items-center justify-center will-change-transform"
+            :class="slotIdx === 1 ? 'block z-20' : 'hidden md:block z-10'"
           >
-            <Transition
+            <!-- Inner Card: Center card is sharp & popping; Side cards are blurred, dimmed & clickable -->
+            <div
+              class="w-full h-full rounded-2xl overflow-hidden border bg-white dark:bg-[#0b0d0c] relative transition-all duration-500 ease-out select-none"
+              :class="[
+                slotIdx === 1
+                  ? 'scale-100 md:scale-[1.05] opacity-100 blur-none border-black/20 dark:border-white/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9),0_0_45px_rgba(255,255,255,0.06)]'
+                  : 'md:scale-[0.92] md:opacity-35 md:hover:opacity-75 md:blur-[3.5px] md:hover:blur-[1px] border-black/10 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.7)] cursor-pointer'
+              ]"
+            >
+              <!-- Click catcher overlay on blurred side cards to smoothly focus them to center -->
+              <div
+                v-if="slotIdx !== 1"
+                @click.stop="onSideCardClick(slotIdx)"
+                class="absolute inset-0 z-30 cursor-pointer"
+                :title="slotIdx === 0 ? 'Click to view previous project' : 'Click to view next project'"
+              ></div>
+
+              <Transition
               :css="false"
               mode="out-in"
               @leave="onCardSwapLeave"
@@ -522,6 +554,7 @@ onBeforeUnmount(() => {
               </a>
             </div>
             </Transition>
+            </div>
           </div>
         </div>
 
@@ -536,19 +569,38 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
+      <!-- Dot Pagination (Indicates active center card & allows direct jump) -->
+      <div class="flex items-center justify-center gap-2 mt-6">
+        <button
+          v-for="(proj, idx) in portfolioData.projects"
+          :key="proj.id"
+          type="button"
+          @click="goToProjectIndex(idx)"
+          class="transition-all duration-300 rounded-full cursor-pointer"
+          :class="
+            currentOrder[1] === idx
+              ? 'w-7 h-2 bg-zinc-900 dark:bg-white'
+              : 'w-2 h-2 bg-black/25 dark:bg-white/25 hover:bg-black/50 dark:hover:bg-white/50'
+          "
+          :aria-label="`Go to ${proj.title}`"
+        ></button>
+      </div>
+
       <!-- Mobile Carousel Arrows -->
-      <div class="flex sm:hidden items-center gap-4 mt-5">
+      <div class="flex sm:hidden items-center gap-4 mt-4">
         <button
           type="button"
           @click="rotateCarousel(-1)"
-          class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white"
+          class="w-9 h-9 rounded-full border border-black/20 dark:border-white/20 flex items-center justify-center text-zinc-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 cursor-pointer"
+          aria-label="Previous project"
         >
           <ChevronLeft class="w-4 h-4" />
         </button>
         <button
           type="button"
           @click="rotateCarousel(1)"
-          class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white"
+          class="w-9 h-9 rounded-full border border-black/20 dark:border-white/20 flex items-center justify-center text-zinc-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 cursor-pointer"
+          aria-label="Next project"
         >
           <ChevronRight class="w-4 h-4" />
         </button>
