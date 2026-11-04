@@ -57,7 +57,7 @@ async function handleSubmit() {
 
     if (response.ok && data.success !== false) {
       submitStatus.value = 'success'
-      statusMessage.value = "Message sent successfully! I'll get back to you soon."
+      statusMessage.value = "Message sent successfully!"
       form.value = { name: '', email: '', message: '' }
 
       // 2. Also log to local backend database asynchronously if running
@@ -143,8 +143,8 @@ onMounted(() => {
         duration: 1.8,
         ease: 'power2.inOut',
         scrollTrigger: {
-          trigger: pathEl,
-          start: 'top 88%',
+          trigger: sectionRef.value,
+          start: 'top 70%',
           toggleActions: 'play none none reverse',
         },
       })
@@ -347,14 +347,14 @@ onBeforeUnmount(() => {
       >
         <div
           v-if="submitStatus"
-          class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
+          class="fixed bottom-6 right-6 max-sm:left-6 max-sm:right-6 z-50 pointer-events-auto"
         >
           <div
             :class="[
-              'px-6 py-3 rounded-full backdrop-blur-2xl shadow-2xl text-xs sm:text-[13px] font-medium tracking-wide border transition-all duration-300 select-none text-center whitespace-nowrap',
+              'px-6 py-4 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.14)] text-sm font-medium tracking-normal transition-all duration-300 select-none text-left whitespace-nowrap border',
               submitStatus === 'success'
-                ? 'bg-white/95 text-zinc-900 border-emerald-600/30 shadow-[0_10px_30px_rgba(0,0,0,0.12)] dark:bg-[#090b0a]/95 dark:text-zinc-100 dark:border-emerald-500/40 dark:shadow-[0_15px_45px_rgba(16,185,129,0.18),0_25px_60px_rgba(0,0,0,0.9)]'
-                : 'bg-white/95 text-red-700 border-red-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.12)] dark:bg-[#0d0909]/95 dark:text-red-300 dark:border-red-500/40 dark:shadow-[0_15px_45px_rgba(239,68,68,0.18),0_25px_60px_rgba(0,0,0,0.9)]'
+                ? 'bg-white text-zinc-900 border-zinc-200/90'
+                : 'bg-white text-red-600 border-red-200'
             ]"
           >
             {{ statusMessage }}
