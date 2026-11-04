@@ -12,6 +12,7 @@ const sectionRef = ref(null)
 const titleWrapRef = ref(null)
 const leftColRef = ref(null)
 const rightCardRef = ref(null)
+const signatureComponentRef = ref(null)
 
 const isSubmitting = ref(false)
 const submitStatus = ref(null) // 'success' | 'error' | null
@@ -127,8 +128,41 @@ onMounted(() => {
         },
       }
     )
+
+    // 3. Live handwriting ink tracing animation for signature on scroll
+    const pathEl = signatureComponentRef.value?.pathRef || signatureComponentRef.value?.$el?.querySelector('path')
+    if (pathEl && typeof pathEl.getTotalLength === 'function') {
+      const pathLength = pathEl.getTotalLength()
+      gsap.set(pathEl, {
+        strokeDasharray: pathLength,
+        strokeDashoffset: pathLength,
+      })
+
+      gsap.to(pathEl, {
+        strokeDashoffset: 0,
+        duration: 1.8,
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: pathEl,
+          start: 'top 88%',
+          toggleActions: 'play none none reverse',
+        },
+      })
+    }
   })
 })
+
+function replaySignature() {
+  const pathEl = signatureComponentRef.value?.pathRef || signatureComponentRef.value?.$el?.querySelector('path')
+  if (pathEl && typeof pathEl.getTotalLength === 'function') {
+    const pathLength = pathEl.getTotalLength()
+    gsap.fromTo(
+      pathEl,
+      { strokeDashoffset: pathLength },
+      { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut' }
+    )
+  }
+}
 
 onBeforeUnmount(() => {
   if (mm) mm.revert()
@@ -196,7 +230,10 @@ onBeforeUnmount(() => {
             </p>
 
             <SignatureSvg
-              className="w-28 sm:w-32 h-auto text-zinc-900/80 dark:text-white/75 transition-colors duration-300"
+              ref="signatureComponentRef"
+              @click="replaySignature"
+              title="Click to replay signature animation"
+              className="w-28 sm:w-32 h-auto text-zinc-900/80 dark:text-white/75 transition-colors duration-300 cursor-pointer hover:opacity-100"
               :strokeWidth="3.8"
             />
           </div>
