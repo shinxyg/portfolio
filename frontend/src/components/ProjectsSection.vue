@@ -77,8 +77,8 @@ async function rotateCarousel(dir) {
     let startOpacity = 0
     if (prev && prev.width > 0 && now.width > 0) {
       dx = prev.left - now.left
-      if (Math.abs(dx) > now.width * 1.5) {
-        dx = dir > 0 ? 90 : -90
+      if (Math.abs(dx) > now.width * 1.1) {
+        dx = dir > 0 ? 80 : -80
       }
     }
     gsap.fromTo(
@@ -274,25 +274,29 @@ onBeforeUnmount(() => {
           <ChevronLeft class="w-4 h-4" />
         </button>
 
-        <!-- 3 Project Cards -->
+        <!-- 3 Project Cards: Overlapping Stacked Deck (Side cards tucked behind center) -->
         <div
           ref="cardsRowRef"
-          class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 w-full max-w-5xl items-center justify-items-center"
+          class="flex items-center justify-center w-full max-w-4xl mx-auto py-2"
         >
           <div
             v-for="(projIndex, slotIdx) in currentOrder"
             :key="portfolioData.projects[projIndex].id"
             :data-card="portfolioData.projects[projIndex].id"
-            class="w-full max-w-[320px] h-87.5 sm:h-92.5 relative flex items-center justify-center will-change-transform"
-            :class="slotIdx === 1 ? 'block z-20' : 'hidden md:block z-10'"
+            class="shrink-0 w-full max-w-[300px] sm:max-w-[320px] h-87.5 sm:h-92.5 relative flex items-center justify-center will-change-transform transition-all duration-500"
+            :class="[
+              slotIdx === 1 ? 'flex z-20' : 'hidden md:flex z-10',
+              slotIdx === 0 ? 'md:-mr-16 lg:-mr-24' : '',
+              slotIdx === 2 ? 'md:-ml-16 lg:-ml-24' : ''
+            ]"
           >
-            <!-- Inner Card: Center card is sharp & popping; Side cards are blurred, dimmed & clickable -->
+            <!-- Inner Card: Center card is sharp & primary focus; Side cards are tucked behind, blurred & dimmed -->
             <div
               class="w-full h-full rounded-2xl overflow-hidden border bg-white dark:bg-[#0b0d0c] relative transition-all duration-500 ease-out select-none"
               :class="[
                 slotIdx === 1
-                  ? 'scale-100 md:scale-[1.05] opacity-100 blur-none border-black/20 dark:border-white/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9),0_0_45px_rgba(255,255,255,0.06)]'
-                  : 'md:scale-[0.92] md:opacity-35 md:hover:opacity-75 md:blur-[3.5px] md:hover:blur-[1px] border-black/10 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.7)] cursor-pointer'
+                  ? 'scale-100 md:scale-[1.06] opacity-100 blur-none border-black/20 dark:border-white/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9),0_0_50px_rgba(255,255,255,0.08)]'
+                  : 'md:scale-[0.88] md:opacity-25 md:hover:opacity-55 md:blur-[4.5px] md:hover:blur-[1.5px] border-black/10 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.6)] cursor-pointer'
               ]"
             >
               <!-- Click catcher overlay on blurred side cards to smoothly focus them to center -->
