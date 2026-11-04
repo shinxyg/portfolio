@@ -248,7 +248,7 @@ onBeforeUnmount(() => {
     -->
     <div
       ref="videoContainerRef"
-      class="relative z-10 w-[92vw] sm:w-[420px] max-w-[420px] h-[82vh] max-h-[720px] rounded-3xl overflow-hidden bg-black shadow-[0_25px_60px_rgba(0,0,0,0.18)] border border-black/10 dark:w-[92vw] dark:sm:w-140 dark:md:w-165 dark:max-w-none dark:h-[85vh] dark:max-h-195 dark:rounded-none dark:overflow-visible dark:bg-transparent dark:shadow-none dark:border-transparent opacity-0 flex items-center justify-center select-none pointer-events-none will-change-transform transition-all duration-300"
+      class="relative z-10 w-[92vw] sm:w-105 max-w-105 h-[82vh] max-h-180 rounded-3xl overflow-hidden bg-black shadow-[0_25px_60px_rgba(0,0,0,0.18)] border border-black/10 dark:w-[92vw] dark:sm:w-140 dark:md:w-165 dark:max-w-none dark:h-[85vh] dark:max-h-195 dark:rounded-none dark:overflow-visible dark:bg-transparent dark:shadow-none dark:border-transparent opacity-0 flex items-center justify-center select-none pointer-events-none will-change-transform transition-all duration-300"
     >
       <video
         ref="videoElRef"
