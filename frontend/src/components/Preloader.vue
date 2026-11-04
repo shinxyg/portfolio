@@ -44,12 +44,12 @@ onMounted(() => {
     defaults: { ease: 'power2.inOut' },
   })
 
-  // 1. Draw handwritten signature (~2.1s) + fill progress bar 0 -> 100%
+  // 1. Draw handwritten signature (~3.5s) + fill progress bar 0 -> 100%
   tl.to(
     pathEl,
     {
       strokeDashoffset: 0,
-      duration: 2.1,
+      duration: 3.5,
       ease: 'power2.inOut',
     },
     0
@@ -59,7 +59,7 @@ onMounted(() => {
     state,
     {
       value: 100,
-      duration: 2.1,
+      duration: 3.5,
       ease: 'power2.inOut',
       onUpdate: () => {
         progress.value = state.value
@@ -72,14 +72,14 @@ onMounted(() => {
     progressBarRef.value,
     {
       scaleX: 1,
-      duration: 2.1,
+      duration: 3.5,
       ease: 'power2.inOut',
     },
     0
   )
 
-  // Hold briefly at READY 100% (like 00:05 in video)
-  tl.to({}, { duration: 0.35 })
+  // Hold briefly at READY 100% (5.0s total preloader choreography)
+  tl.to({}, { duration: 0.5 })
 
   // 2. Fade out progress line & text
   tl.to(
@@ -87,7 +87,7 @@ onMounted(() => {
     {
       opacity: 0,
       y: 8,
-      duration: 0.3,
+      duration: 0.35,
       ease: 'power2.in',
     },
     'flyToNav'
@@ -118,7 +118,7 @@ onMounted(() => {
         const sigRect = sigWrapperRef.value.getBoundingClientRect()
         return anchorRect.width / sigRect.width
       },
-      duration: 0.95,
+      duration: 1.0,
       ease: 'expo.inOut',
     },
     'flyToNav'
@@ -129,7 +129,7 @@ onMounted(() => {
     backdropRef.value,
     {
       opacity: 0,
-      duration: 0.85,
+      duration: 0.9,
       ease: 'power3.inOut',
     },
     'flyToNav+=0.18'
